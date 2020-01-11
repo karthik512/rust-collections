@@ -230,14 +230,33 @@ impl<T> LinkedList<T> {
 
 	}
 
-	pub fn front() {
-
+	/// Returns a reference to the element at the front of the List.
+	///
+	/// Returns `None` if the List is empty.
+	pub fn front(&self) -> Option<&T> {
+		self.head.as_ref().map(|node| &node.element)
 	}
 
-	pub fn back() {
-
+	/// Returns a reference to the element at the back of the List.
+	///
+	/// Returns `None` if the List is empty.
+	pub fn back(&self) -> Option<&T> {
+		self.tail.as_ref().map(|node| &node.element)
 	}
 
+	/// Returns a mutable reference to the element at the front of the List.
+	///
+	/// Returns `None` if the List is empty.
+	pub fn front_mut(&mut self) -> Option<&mut T> {
+		self.head.as_mut().map(|node| &mut node.element)
+	}
+
+	/// Returns a mutable reference to the element at the back of the List.
+	///
+	/// Returns `None` if the List is empty.
+	pub fn back_mut(&mut self) -> Option<&mut T> {
+		self.tail.as_mut().map(|node| &mut node.element)
+	}
 //	Some other Methods
 //
 //	Sort
