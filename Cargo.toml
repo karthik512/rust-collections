@@ -1,0 +1,15 @@
+[package]
+name = "collections"
+version = "0.1.0"
+authors = ["karthik.k <karthik51295@gmail.com>"]
+edition = "2018"
+description = ""
+license = "MIT"
+readme = ""
+repository = ""
+documentation = ""
+keywords = []
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
