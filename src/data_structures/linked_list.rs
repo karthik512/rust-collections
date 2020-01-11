@@ -226,8 +226,11 @@ impl<T> LinkedList<T> {
 
 	}
 
-	pub fn clear() {
-
+	/// Removes all the elements from the List.
+	pub fn clear(&mut self) {
+		while !self.is_empty() {
+			self.pop();
+		}
 	}
 
 	/// Returns a reference to the element at the front of the List.
