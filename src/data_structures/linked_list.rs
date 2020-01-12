@@ -270,3 +270,47 @@ impl<T> LinkedList<T> {
 //	Get(index)
 //	Delete at index
 }
+
+pub struct IntoIter<T>(LinkedList<T>);
+
+impl<T> Iterator for IntoIter<T> {
+	type Item = T;
+
+	#[inline]
+	fn next(&mut self) -> Option<T> {
+		self.0.pop_front()
+	}
+
+	#[inline]
+	fn size_hint(&self) -> (usize, Option<usize>) {
+		(self.0.length(), Some(self.0.length()))
+	}
+}
+
+impl<T> DoubleEndedIterator for IntoIter<T> {
+	#[inline]
+	fn next_back(&mut self) -> Option<T> {
+		self.0.pop_back()
+	}
+}
+
+impl<T> IntoIterator for LinkedList<T> {
+	type Item = T;
+	type IntoIter = IntoIter<T>;
+
+	fn into_iter(self) -> IntoIter<T> { IntoIter(self) }
+}
+
+impl<T> Drop for LinkedList<T> {
+	/// Clears the List.
+	fn drop(&mut self) {
+		self.clear();
+	}
+}
+
+impl<T> Default for LinkedList<T> {
+	/// Creates an empty List.
+	fn default() -> Self {
+		Self::new()
+	}
+}
