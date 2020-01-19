@@ -260,6 +260,15 @@ impl<T> LinkedList<T> {
 	pub fn back_mut(&mut self) -> Option<&mut T> {
 		self.tail.as_mut().map(|node| &mut node.element)
 	}
+
+	/// Returns an iterator that yields references to the list's eleement.
+	pub fn iter(&self) -> Iter<T> {
+		Iter {
+			head: &self.head,
+			tail: &self.tail,
+			len: self.length
+		}
+	}
 //	Some other Methods
 //
 //	Sort
@@ -271,6 +280,9 @@ impl<T> LinkedList<T> {
 //	Delete at index
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//								IntoIter Implementation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 pub struct IntoIter<T>(LinkedList<T>);
 
 impl<T> Iterator for IntoIter<T> {
@@ -301,6 +313,54 @@ impl<T> IntoIterator for LinkedList<T> {
 	fn into_iter(self) -> IntoIter<T> { IntoIter(self) }
 }
 
+impl<'a, T> IntoIterator for &'a LinkedList<T> {
+	type Item = &'a T;
+	type IntoIter = Iter<'a, T>;
+
+	fn into_iter(self) -> Iter<'a, T> { self.iter() }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//								Iter Implementation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+pub struct Iter<'a, T> {
+	head: &'a Link<T>,
+	tail: &'a Raw<T>,
+	len: usize
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+	type Item = &'a T;
+
+	#[inline]
+	fn next(&mut self) -> Option<&'a T> {
+		self.head.as_ref().map(|head| {
+			self.len -= 1;
+			self.head = &head.next;
+			&head.element
+		})
+	}
+
+	#[inline]
+	fn size_hint(&self) -> (usize, Option<usize>) {
+		(self.len, Some(self.len))
+	}
+}
+
+impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
+	#[inline]
+	fn next_back(&mut self) -> Option<&'a T> {
+		self.tail.as_ref().map(|tail| {
+			self.len -= 1;
+			self.tail = &tail.prev;
+			&tail.element
+		})
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//								Drop Implementation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 impl<T> Drop for LinkedList<T> {
 	/// Clears the List.
 	fn drop(&mut self) {
@@ -308,6 +368,9 @@ impl<T> Drop for LinkedList<T> {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//								Default Implementation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 impl<T> Default for LinkedList<T> {
 	/// Creates an empty List.
 	fn default() -> Self {

@@ -44,3 +44,35 @@ fn into_iter_back() {
 	assert_eq!(iter.next_back(), Some(10));
 	assert_eq!(iter.next_back(), None);
 }
+
+#[test]
+fn iter() {
+	let mut list: LinkedList<i32> = LinkedList::new();
+
+	let mut iter = list.iter();
+	assert_eq!(iter.next(), None);
+
+	list.push(10); list.push(20); list.push(30);
+
+	let mut iter = list.iter();
+	assert_eq!(iter.next(), Some(&10));
+	assert_eq!(iter.next(), Some(&20));
+	assert_eq!(iter.next(), Some(&30));
+	assert_eq!(iter.next(), None);
+}
+
+#[test]
+fn iter_back() {
+	let mut list: LinkedList<i32> = LinkedList::new();
+
+	let mut iter = list.iter();
+	assert_eq!(iter.next_back(), None);
+
+	list.push(10); list.push(20); list.push(30);
+
+	let mut iter = list.iter();
+	assert_eq!(iter.next_back(), Some(&30));
+	assert_eq!(iter.next_back(), Some(&20));
+	assert_eq!(iter.next_back(), Some(&10));
+	assert_eq!(iter.next_back(), None);
+}
