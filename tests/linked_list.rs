@@ -1,16 +1,18 @@
 use collections::data_structures::LinkedList;
 
 #[test]
-fn linked_list_insertion() {
+fn linked_list() {
 	let mut list: LinkedList<i32> = LinkedList::new();
 
 	assert_eq!(true, list.is_empty());
 	assert_eq!(0, list.length());
+	assert_eq!(false, list.contains(&50));
 
 	list.push_back(0); list.push_back(1);
 
 	assert_eq!(false, list.is_empty());
 	assert_eq!(2, list.length());
+	assert_eq!(true, list.contains(&1));
 
 	list.pop();
 	assert_eq!(1, list.length());

@@ -222,8 +222,12 @@ impl<T> LinkedList<T> {
 		self.length == 0
 	}
 
-	pub fn contains() {
-
+	/// Returns `true` if the List contains an element equal to the given value.
+	pub fn contains(&self, x: &T) -> bool
+	where
+		T: PartialEq<T>
+	{
+		self.iter().any(|y| y == x)
 	}
 
 	/// Removes all the elements from the List.
